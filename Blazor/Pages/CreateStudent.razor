@@ -1,0 +1,43 @@
+﻿@page "/createStudent"
+@using Blazor.Data
+@using global::Data.Models
+@inject IStudentService studentService;
+
+<PageTitle>Create Student</PageTitle>
+
+<div class="form-group field">
+        <label>Name:</label>
+    <input type="text" @bind="name" @bind:event="oninput"/>
+    
+    <label>Programme:</label>
+            <input type="text" @bind="programme" @bind:event="oninput"/>
+     @if (!string.IsNullOrEmpty(resultMsg))
+            {
+                <label>@resultMsg</label>
+            }
+</div>
+<div class="button-row">
+    <button @onclick="Create" disabled="@(string.IsNullOrEmpty(name)&&(string.IsNullOrEmpty(programme)))">Create</button>
+</div>
+
+
+@code {
+    private string name = "";
+    private string resultMsg = "";
+    private string programme = "";
+
+    
+    private async Task Create()
+    {
+        try
+        {
+            await studentService.CreateAsync(new Student() { name = name, programme = programme });
+            resultMsg = "user created";
+        }
+        catch (Exception e)
+        {
+            resultMsg = e.Message;
+        }
+    }
+
+}

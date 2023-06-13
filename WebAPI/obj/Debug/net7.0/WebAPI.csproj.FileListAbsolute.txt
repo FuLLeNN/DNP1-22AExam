@@ -1,0 +1,6 @@
+C:\Users\guilh\RiderProjects\Exam22A\webapi\obj\Debug\net7.0\WebAPI.csproj.AssemblyReference.cache
+C:\Users\guilh\RiderProjects\Exam22A\webapi\obj\Debug\net7.0\WebAPI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\guilh\RiderProjects\Exam22A\webapi\obj\Debug\net7.0\WebAPI.AssemblyInfoInputs.cache
+C:\Users\guilh\RiderProjects\Exam22A\webapi\obj\Debug\net7.0\WebAPI.AssemblyInfo.cs
+C:\Users\guilh\RiderProjects\Exam22A\webapi\obj\Debug\net7.0\WebAPI.csproj.CoreCompileInputs.cache
+C:\Users\guilh\RiderProjects\Exam22A\webapi\obj\Debug\net7.0\WebAPI.MvcApplicationPartsAssemblyInfo.cache

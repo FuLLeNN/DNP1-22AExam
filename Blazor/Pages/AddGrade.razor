@@ -1,0 +1,77 @@
+﻿@page "/addGrade"
+@using Blazor.Data
+@using global::Data.Models
+@inject IStudentService studentService;
+
+<PageTitle>Add Grade</PageTitle>
+
+<h1>Add Grade</h1>
+@if (students == null)
+{
+    <p>
+        <em>No Students...</em>
+    </p>
+}
+else
+{
+    <label>Course Code:</label>
+    <input type="text" @bind="courseCode" @bind:event="oninput"/>
+    
+    <label>Grade:</label>
+    <select @bind="grade">
+        <option value="-3">-3</option>
+        <option value="0">0</option>
+        <option value="2" selected>2</option>
+        <option value="4">4</option>
+        <option value="7">7</option>
+        <option value="10">10</option>
+        <option value="12">12</option>
+    </select>
+
+    <select @bind="student">
+         @foreach (var s in students)
+                {
+                    <option value="@s.id">
+                       @s.name
+                    </option>
+                }
+    </select>
+    @if (!string.IsNullOrEmpty(resultMsg))
+    {
+        <label>@resultMsg</label>
+    }
+    
+    <div class="button-row">
+        <button @onclick="AddGradeToStudent" disabled="@(string.IsNullOrEmpty(courseCode)&&student!=0)">Create</button>
+    </div>
+       
+
+}
+
+@code {
+    private string courseCode;
+    private int grade;
+    private string resultMsg = "";
+    private int student;
+
+    private ICollection<Student> students;
+
+    protected override async Task OnInitializedAsync()
+    {
+        students = await studentService.GetAllStudentsAsync();
+    }
+
+    private async Task AddGradeToStudent()
+    {
+        try
+        {
+            await studentService.AddGradeToStudentAsync(new GradeInCourse() { courseCode = courseCode, grade = grade, Student_Id = student }, student);
+            resultMsg = "Added grade";
+        }
+        catch (Exception e)
+        {
+            resultMsg = e.Message;
+        }
+    }
+
+}

@@ -1,0 +1,90 @@
+﻿@page "/statistics"
+@using Blazor.Data
+@using global::Data.Models
+@inject IGradeService gradeService;
+
+<PageTitle>Statistics</PageTitle>
+
+<h1>Get Statistics from Course</h1>
+<label>Course Code:</label>
+<input type="text" @bind="courseCode" @bind:event="oninput"/>
+
+<label>Total Students:</label>
+<input type="checkbox" @bind="f">
+@if (!string.IsNullOrEmpty(resultMsg))
+    {
+        <label>@resultMsg</label>
+    }
+
+<label>Total Students Passed:</label>
+<input type="checkbox" @bind="s">
+@if (!string.IsNullOrEmpty(resultMsg1))
+    {
+        <label>@resultMsg1</label>
+    }
+
+<label>Grade Overall:</label>
+<input type="checkbox" @bind="t">
+@if (!string.IsNullOrEmpty(resultMsg2))
+    {
+        <label>@resultMsg2</label>
+    }
+
+<label>Grade Overall passed:</label>
+<input type="checkbox" @bind="fo">
+@if (!string.IsNullOrEmpty(resultMsg3))
+    {
+        <label>@resultMsg3</label>
+    }
+
+<label>Median Grade:</label>
+<input type="checkbox" @bind="fi">
+@if (!string.IsNullOrEmpty(resultMsg4))
+    {
+        <label>@resultMsg4</label>
+    }
+
+
+
+<div class="button-row">
+    <button @onclick="GetStatistics" disabled="@(string.IsNullOrEmpty(courseCode))">Create</button>
+</div>
+       
+
+
+
+@code {
+    private string courseCode;
+    private bool f;
+    private bool s;
+    private bool t;
+    private bool fo;
+    private bool fi;
+    private string resultMsg = "";
+    private string resultMsg1 = "";
+    private string resultMsg2 = "";
+    private string resultMsg3 = "";
+    private string resultMsg4 = "";
+    private StatisticsOverviewDto statisticsOver;
+
+    private ICollection<Student> students;
+    
+
+    private async Task GetStatistics()
+    {
+        try
+        {
+            statisticsOver = await gradeService.GetCourseStatisticsAsync(new StatisticsDTO() { totalNumOfStudents = f, totalNumOfPassedStudents = s, avgGradeOverall = t, avgGradeOfPassed = fo, medianGrade = fi }, courseCode);
+            resultMsg = statisticsOver.totalNumOfStudents.ToString();
+            resultMsg1 = statisticsOver.totalNumOfPassedStudents.ToString();
+            resultMsg2 = statisticsOver.avgGradeOverall.ToString();
+            resultMsg3 = statisticsOver.avgGradeOfPassed.ToString();
+            resultMsg4 = statisticsOver.medianGrade.ToString();
+        }
+        catch (Exception e)
+        {
+            resultMsg = e.Message;
+        }
+    }
+
+}
